@@ -1,0 +1,3 @@
+netcat_group: netcat
+netcat_user: netcat
+netcat_file_path: /etc/nc-files
