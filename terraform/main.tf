@@ -13,12 +13,12 @@ provider "azurerm" {
 
 resource "azurerm_resource_group" "packer_images" {
   name     = "packer-images"
-  location = "UK South"
+  location = var.location
 }
 
 resource "azurerm_resource_group" "devops_academy" {
   name     = "devops-academy"
-  location = "UK South"
+  location = var.location
 }
 
 resource "azurerm_virtual_network" "devops_academy_network" {
@@ -60,100 +60,19 @@ resource "azurerm_network_security_group" "demo_vm_nsg" {
   location            = azurerm_resource_group.devops_academy.location
   resource_group_name = azurerm_resource_group.devops_academy.name
 
-  security_rule {
-    name                       = "http"
-    priority                   = 100
-    direction                  = "Inbound"
-    access                     = "Allow"
-    protocol                   = "Tcp"
-    source_port_range          = "*"
-    destination_port_range     = "80"
-    source_address_prefix      = "*"
-    destination_address_prefix = "*"
-  }
-
-  security_rule {
-    name                       = "ssh"
-    priority                   = 101
-    direction                  = "Inbound"
-    access                     = "Allow"
-    protocol                   = "Tcp"
-    source_port_range          = "*"
-    destination_port_range     = "22"
-    source_address_prefix      = "*"
-    destination_address_prefix = "*"
-  }
-
-  security_rule {
-    name                       = "nc-img"
-    priority                   = 102
-    direction                  = "Inbound"
-    access                     = "Allow"
-    protocol                   = "Tcp"
-    source_port_range          = "*"
-    destination_port_range     = "5555"
-    source_address_prefix      = "*"
-    destination_address_prefix = "*"
-  }
-
-  security_rule {
-    name                       = "nc-msg"
-    priority                   = 103
-    direction                  = "Inbound"
-    access                     = "Allow"
-    protocol                   = "Tcp"
-    source_port_range          = "*"
-    destination_port_range     = "5556"
-    source_address_prefix      = "*"
-    destination_address_prefix = "*"
-  }
-
-  security_rule {
-    name                       = "empty"
-    priority                   = 104
-    direction                  = "Inbound"
-    access                     = "Allow"
-    protocol                   = "Tcp"
-    source_port_range          = "*"
-    destination_port_range     = "5557"
-    source_address_prefix      = "*"
-    destination_address_prefix = "*"
-  }
-
-  security_rule {
-    name                       = "empty-deny"
-    priority                   = 105
-    direction                  = "Inbound"
-    access                     = "Deny"
-    protocol                   = "Tcp"
-    source_port_range          = "*"
-    destination_port_range     = "5558"
-    source_address_prefix      = "*"
-    destination_address_prefix = "*"
-  }
-
-  security_rule {
-    name                       = "ICMP"
-    priority                   = 110
-    direction                  = "Inbound"
-    access                     = "Allow"
-    protocol                   = "ICMP"
-    source_port_range          = "*"
-    destination_port_range     = "*"
-    source_address_prefix      = "*"
-    destination_address_prefix = "*"
-  }
-
-  security_rule {
-    name                       = "all"
-    priority                   = 100
-    direction                  = "Outbound"
-    access                     = "Allow"
-    protocol                   = "*"
-    source_port_range          = "*"
-    destination_port_range     = "*"
-    source_address_prefix      = "*"
-    destination_address_prefix = "*"
+  dynamic "security_rule" {
+    for_each = var.security_rules
+    content {
+      name                       = security_rule.value.name
+      priority                   = security_rule.value.priority
+      direction                  = security_rule.value.direction
+      access                     = security_rule.value.access
+      protocol                   = security_rule.value.protocol
+      source_port_range          = security_rule.value.source_port_range
+      destination_port_range     = security_rule.value.destination_port_range
+      source_address_prefix      = security_rule.value.source_address_prefix
+      destination_address_prefix = security_rule.value.destination_address_prefix
+    }
   }
 }
 
@@ -167,13 +86,13 @@ resource "azurerm_linux_virtual_machine" "demo_machine" {
   resource_group_name = azurerm_resource_group.devops_academy.name
   location            = azurerm_resource_group.devops_academy.location
   size                = "Standard_F2"
-  admin_username      = "adminuser"
+  admin_username      = var.admin_username
   network_interface_ids = [
     azurerm_network_interface.demo_nic.id,
   ]
 
   admin_ssh_key {
-    username   = "adminuser"
+    username   = var.admin_username
     public_key = file("~/.ssh/id_rsa.pub")
   }
 
@@ -187,7 +106,7 @@ resource "azurerm_linux_virtual_machine" "demo_machine" {
 }
 
 data "azurerm_image" "base_image" {
-  name                = "ubuntu-mixed-server-0.0.3"
+  name                = "${var.image_name}-${var.image_version}"
   resource_group_name = azurerm_resource_group.packer_images.name
 }
 
