@@ -123,7 +123,7 @@ output "http" {
 }
 
 output "get_image" {
-  value = "nc ${azurerm_linux_virtual_machine.demo_machine.public_ip_address} 5555 > image.jpg"
+  value = "nc ${azurerm_linux_virtual_machine.demo_machine.public_ip_address} 5557 > image.jpg"
 }
 
 output "get_message" {

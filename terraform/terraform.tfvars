@@ -1,5 +1,5 @@
 image_name    = "ubuntu-mixed-server"
-image_version = "0.0.3"
+image_version = "1.0.0"
 security_rules = {
 
   http = {
@@ -26,21 +26,9 @@ security_rules = {
     destination_address_prefix = "*"
   }
 
-  nc_image = {
-    name                       = "netcat-image"
-    priority                   = 120
-    direction                  = "Inbound"
-    access                     = "Allow"
-    protocol                   = "Tcp"
-    source_port_range          = "*"
-    destination_port_range     = "5555"
-    source_address_prefix      = "*"
-    destination_address_prefix = "*"
-  }
-
   nc_message = {
     name                       = "netcat-message"
-    priority                   = 130
+    priority                   = 120
     direction                  = "Inbound"
     access                     = "Allow"
     protocol                   = "Tcp"
@@ -50,11 +38,11 @@ security_rules = {
     destination_address_prefix = "*"
   }
 
-  empty = {
-    name                       = "empty"
-    priority                   = 140
+  nc_image = {
+    name                       = "netcat-image"
+    priority                   = 130
     direction                  = "Inbound"
-    access                     = "Deny"
+    access                     = "Allow"
     protocol                   = "Tcp"
     source_port_range          = "*"
     destination_port_range     = "5557"
@@ -62,9 +50,21 @@ security_rules = {
     destination_address_prefix = "*"
   }
 
+  empty = {
+    name                       = "empty"
+    priority                   = 140
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    destination_port_range     = "5558"
+    source_address_prefix      = "*"
+    destination_address_prefix = "*"
+  }
+
   icmp = {
     name                       = "ICMP"
-    priority                   = 150
+    priority                   = 160
     direction                  = "Inbound"
     access                     = "Allow"
     protocol                   = "ICMP"
