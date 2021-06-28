@@ -1,0 +1,49 @@
+devops-academy on  main
+➜ sudo nmap 20.90.103.127
+Password:
+Starting Nmap 7.91 ( https://nmap.org ) at 2021-06-28 20:01 BST
+Nmap scan report for 20.90.103.127
+Host is up (0.013s latency).
+Not shown: 998 filtered ports
+PORT   STATE SERVICE
+22/tcp open  ssh
+80/tcp open  http
+
+Nmap done: 1 IP address (1 host up) scanned in 4.90 seconds
+
+devops-academy on  main took 9s
+➜ curl http://20.90.103.127
+Welcome to the Networking session of the DevOps Academy!
+
+You might want to scan the following port range 5550-5560 with nmap%
+
+devops-academy on  main [?]
+➜ sudo nmap -p 5550-5560 20.90.103.127
+Starting Nmap 7.91 ( https://nmap.org ) at 2021-06-28 20:04 BST
+Nmap scan report for 20.90.103.127
+Host is up (0.010s latency).
+
+PORT     STATE    SERVICE
+5550/tcp filtered sdadmind
+5551/tcp filtered unknown
+5552/tcp filtered unknown
+5553/tcp filtered sgi-eventmond
+5554/tcp filtered sgi-esphttp
+5555/tcp filtered freeciv
+5556/tcp open     freeciv
+5557/tcp open     farenet
+5558/tcp closed   unknown
+5559/tcp filtered unknown
+5560/tcp filtered isqlplus
+
+Nmap done: 1 IP address (1 host up) scanned in 1.38 seconds
+
+devops-academy on  main [?] took 5s
+➜ nc 20.90.103.127 5556
+You found me! I left a jpg for you on port 5557!^C
+
+devops-academy on  main [?]
+➜ nc 20.90.103.127 5557 > image.jpg
+^C
+
+devops-academy on  main [?] took 8s
