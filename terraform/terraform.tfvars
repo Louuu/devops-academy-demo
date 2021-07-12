@@ -1,4 +1,4 @@
-image_name    = "ubuntu-mixed-server"
+image_name    = "ubuntu-web-server"
 image_version = "1.0.0"
 security_rules = {
 

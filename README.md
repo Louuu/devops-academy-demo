@@ -15,16 +15,54 @@ THIS README IS INCOMPLETE
 ```
 .
 ├── README.md
+├── common
+│   ├── ansible
+│   │   ├── configure-server.yml
+│   │   ├── group_vars
+│   │   │   └── all.yml
+│   │   └── roles
+│   │       ├── base
+│   │       │   ├── defaults
+│   │       │   │   └── main.yml
+│   │       │   └── tasks
+│   │       │       └── main.yml
+│   │       ├── netcat
+│   │       │   ├── defaults
+│   │       │   │   └── main.yml
+│   │       │   ├── files
+│   │       │   │   ├── message.txt
+│   │       │   │   └── ramcat.jpeg
+│   │       │   ├── tasks
+│   │       │   │   └── main.yml
+│   │       │   └── templates
+│   │       │       ├── nc-file.service.j2
+│   │       │       ├── nc-file.sh.j2
+│   │       │       ├── nc-msg.service.j2
+│   │       │       └── nc-msg.sh.j2
+│   │       └── web
+│   │           ├── tasks
+│   │           │   └── main.yml
+│   │           └── templates
+│   │               └── index.j2
+│   └── scripts
+│       └── clean-up.sh
 ├── terraform
-│   └── main.tf
+│   ├── main.tf
+│   ├── terraform.tfvars
+│   └── variables.tf
 ├── ubuntu-base
-│   └── main.json
+│   └── main.pkr.hcl
+├── ubuntu-mixed-server
+│   └── main.pkr.hcl
 └── ubuntu-web-server
-    └── main.json
+    └── main.pkr.hcl
 ```
 
+## common
+This is the directory where any scripts live and ansible configuration. There are three ansible roles.
+
 ### terraform
-This is the Terraform code that spins up the resource group called packer-images
+This is the Terraform code that spins up the resource group called packer-images and deploys the image
 
 ### ubuntu-base
 This is a base image, normally this is the source for all other images. Install pieces of software here that need to be on all images.
@@ -53,7 +91,7 @@ Replace ubuntu-base with the directory for the image you want to build.
 
 ```
 cd ubuntu-base 
-packer build main.json
+packer build main.pkr.json
 ```
 
 ## Improvements
