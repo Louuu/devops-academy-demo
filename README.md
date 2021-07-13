@@ -10,6 +10,8 @@ THIS README IS INCOMPLETE
 - Packer
 - Azure CLI
 - Microsoft Azure Subscription
+- AWS CLI (Optional)
+- AWS Account (Optional)
 
 ## Directory Structure
 ```

@@ -1,0 +1,19 @@
+{
+    "provisioners": [
+        {
+            "type": "shell",
+            "inline": ["whoami"]
+        },
+
+        {
+            "type": "shell",
+            "script": "../common/scripts/install-ansible.sh"
+        },
+
+        {
+            "type": "shell",
+            "execute_command": "echo 'packer' | {{.Vars}} sudo -S -E bash '{{.Path}}'",
+            "script": "../common/scripts/install-ansible.sh"
+        }
+    ]
+}

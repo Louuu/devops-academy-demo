@@ -1,0 +1,13 @@
+{
+  "post-processors": [
+    {
+      "type": "manifest",
+      "output": "manifest.json",
+      "strip_path": true
+    },
+    {
+      "type": "shell-local",
+      "inline": ["cp manifest.json ./remote/storage/manifests/example/manifest.json"]
+    }
+  ]
+}
