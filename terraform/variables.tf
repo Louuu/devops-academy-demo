@@ -20,3 +20,18 @@ variable "admin_username" {
     type = string
     default = "admin_user"
 }
+
+variable "gitlab_url" {
+  type = string
+  sensitive = true
+}
+
+variable "gitlab_runner_token" {
+  type = string
+  sensitive = true
+}
+
+variable "gitlab_runner_name" {
+  type = string
+  default = "gitlab runner"
+}

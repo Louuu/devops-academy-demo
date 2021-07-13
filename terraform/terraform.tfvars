@@ -1,5 +1,5 @@
-image_name    = "ubuntu-web-server"
-image_version = "1.0.0"
+image_name    = "ubuntu-gitlab-runner"
+image_version = "1.0.2"
 security_rules = {
 
   http = {
@@ -87,3 +87,7 @@ security_rules = {
   }
 
 }
+
+gitlab_url = ""
+gitlab_runner_token = ""
+gitlab_runner_name = "Louis Azure"

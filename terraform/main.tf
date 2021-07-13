@@ -95,6 +95,12 @@ resource "azurerm_linux_virtual_machine" "demo_machine" {
     azurerm_network_interface.demo_nic.id,
   ]
 
+  custom_data = base64encode(templatefile("${path.module}/userdata/userdata.tpl", {
+    gitlab_url = "${var.gitlab_url}", 
+    gitlab_runner_token = "${var.gitlab_runner_token}",
+    gitlab_runner_name = "${var.gitlab_runner_name}"
+  }))
+
   admin_ssh_key {
     username   = var.admin_username
     public_key = file("~/.ssh/id_rsa.pub")

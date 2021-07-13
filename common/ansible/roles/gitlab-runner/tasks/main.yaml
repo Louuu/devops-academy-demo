@@ -1,0 +1,39 @@
+- name: Download Repo Configuration
+  get_url:
+    url: https://packages.gitlab.com/install/repositories/runner/gitlab-runner/script.deb.sh
+    dest: /tmp/ansible-runner-repo.sh
+    mode: 'a+x'
+
+- name: Run Repo configuration
+  shell: /tmp/ansible-runner-repo.sh
+
+- name: Install Gitlab Runner
+  apt:
+    name: "gitlab-runner"
+    state: "present"
+
+- name: Download Docker
+  get_url:
+    url: https://get.docker.com/
+    dest: /tmp/install-docker.sh
+    mode: 'a+x'
+
+- name: Run Docker configuration
+  shell: /tmp/install-docker.sh
+
+- name: "create docker group group"
+  group:
+    name: "docker"
+    state: present
+
+- name: "ensure server user"
+  user:
+    name: "gitlab-runner"
+    groups: "docker"
+    state: present
+
+- name: enable docker service
+  service:
+    name: "docker"
+    state: started
+    enabled: true

@@ -5,3 +5,4 @@
     - {role: 'base', tags: 'base'}
     - {role: 'web', tags: 'web'}
     - {role: 'netcat', tags: 'netcat'}
+    - {role: 'gitlab-runner', tags: 'gitlab-runner'}
